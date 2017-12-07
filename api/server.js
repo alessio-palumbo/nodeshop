@@ -1,10 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const autoMiddleware = require('./middleware/auth')
 
 const server = express()
 
 server.use(bodyParser.json()) // Allows me to have JSON to parse
+server.use(cors()) // Allows access from other origins, i.e. our react front-end
 server.use(autoMiddleware.initialize) // Kick passport off
 
 server.use([
