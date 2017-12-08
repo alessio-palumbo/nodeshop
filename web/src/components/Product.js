@@ -5,7 +5,7 @@ class Product extends Component {
     editProduct: false
   }
   render() {
-    const { brandName, name, onEditValue, onDeleteProduct } = this.props
+    const { brandName, name, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
 
     return (
       <div>
@@ -15,26 +15,66 @@ class Product extends Component {
               <div className='col-md-3'>
                 {brandName}
               </div>
-              <div className='col-md-6'>
+              <div className='col-md-5'>
                 {name}
               </div>
-              <div className='col-md-3'>
+              <div className='col-md-4 text-right'>
                 <button onClick={() => this.setState({ editProduct: !this.state.editProduct })} className='btn btn-sm btn-success'>Edit</button>
-                <button onClick={onDeleteProduct} className='btn btn-sm btn-danger'>delete</button>
+                <button onClick={onAddToWishlist} className='btn btn-sm btn-primary'>❤️</button>
+                <button onClick={onDeleteProduct} className='btn btn-sm btn-danger'>✖️</button>
               </div>
             </div>
           ) : (
-              <div className='row'>
-                <div className='col-md-3'>
-                  <input onChange={onEditValue} type='text' value={brandName} className='form-control edit-product-input' />
+              <form
+                onSubmit={event => {
+                  event.preventDefault()
+
+                  const form = event.target
+                  const elements = form.elements
+                  const id = elements._id.value
+                  const brandName = elements.brandName.value
+                  const name = elements.name.value
+
+                  onEditProduct({ id, brandName, name })
+                }}
+              >
+                <div className='row'>
+                  <div className='col-md-3'>
+                    <input
+                      type='text'
+                      name={brandName}
+                      value={brandName}
+                      className='form-control edit-product-input'
+                    />
+                  </div>
+                  <div className='col-md-6'>
+                    <input
+                      type='text'
+                      name={name}
+                      value={name}
+                      className='form-control edit-product-input'
+                    />
+                  </div>
+                  <div className='col-md-3'>
+                    <button
+                      onClick={() => this.setState({ editProduct: !this.state.editProduct })}
+                      className='btn btn-sm btn-primary'
+                    >
+                      Edit
+                  </button>
+                    <button
+                      onClick={
+                        (event) => {
+                          event.preventDefault()
+                          this.setState({ editProduct: !this.state.editProduct })
+                        }}
+                      className='btn btn-sm btn-success'
+                    >
+                      Back
+                  </button>
+                  </div>
                 </div>
-                <div className='col-md-6'>
-                  <input onChange={onEditValue} type='text' value={name} className='form-control edit-product-input' />
-                </div>
-                <div className='col-md-3'>
-                  <button onClick={() => this.setState({ editProduct: !this.state.editProduct })} className='btn btn-sm btn-success'>Done</button>
-                </div>
-              </div>
+              </form>
             )
         }
       </div>

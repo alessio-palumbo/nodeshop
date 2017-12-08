@@ -18,7 +18,7 @@ function ProductListing({
           return (
             <Product
               {...product}
-              onEdit={() => onEditProduct(product._id)}
+              onEditProduct={() => onEditProduct(product._id)}
             />
           )
         })

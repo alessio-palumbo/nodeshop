@@ -11,7 +11,8 @@ server.use(autoMiddleware.initialize) // Kick passport off
 
 server.use([
   require('./routes/products'),
-  require('./routes/auth')
+  require('./routes/auth'),
+  require('./routes/wishlist')
 ])
 
 server.listen(7000, (error) => {

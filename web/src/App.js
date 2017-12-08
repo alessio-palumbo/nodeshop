@@ -5,8 +5,10 @@ import SignInForm from './components/SignInForm'
 import SignUpForm from './components/SignUpForm'
 import ProductListing from './components/ProductListing'
 import NewProductForm from './components/NewProductForm'
+import Wishlist from './components/Wishlist'
 import { signUp, signIn, signOutNow } from './api/auth'
 import { listProducts, addProduct, updateProduct, deleteProduct } from './api/products'
+import { showWishlist, addWishlistProduct, deleteWishlistProduct } from './api/wishlist'
 import { setToken } from './api/init'
 import { getDecodedToken } from './api/token'
 
@@ -15,6 +17,7 @@ class App extends Component {
   state = {
     decodedToken: getDecodedToken(), // Restore the previous signed in data
     products: [],
+    wishlistProducts: [],
     showSignUp: false
   }
 
@@ -57,7 +60,7 @@ class App extends Component {
       })
   }
 
-  onEditProduct = (id) => {
+  onEditProduct = ({ id, brandName, name }) => {
     console.log(id)
     // this.setState(prevState => {
     //   const beforeProducts = [...prevState.products]
@@ -77,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const { decodedToken, products } = this.state
+    const { decodedToken, products, wishlistProducts } = this.state
 
     return (
       <div className="App" >
@@ -101,9 +104,11 @@ class App extends Component {
                 <ProductListing
                   products={products}
                   onEditProduct={this.onEditProduct}
-                  onDeleteProduct={this.onDeleteProduct}
                 />
               }
+              <Wishlist
+                wishlistProducts={wishlistProducts}
+              />
               <hr />
               <br />
               <p><strong>Add New Product</strong></p>
@@ -156,10 +161,17 @@ class App extends Component {
   load() {
     listProducts()
       .then(products => {
-        this.setState(products)
+        this.setState({ products })
       })
       .catch(error => {
         console.error('error loading products', error)
+      })
+    showWishlist()
+      .then(wishlistProducts => {
+        this.setState({ wishlistProducts })
+      })
+      .catch(error => {
+        console.error('error loading wishlist products', error)
       })
   }
 
