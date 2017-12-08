@@ -25,4 +25,35 @@ router.post('/products', authMiddleware.requireJWT, (req, res) => {
     })
 })
 
+router.patch('./products/:id', authMiddleware.requireJWT, (req, res) => {
+  const id = req.params.id
+  const attributes = req.body
+  Product.findByIdAndUpdate(id, attributes, { new: true })
+    .then(product => {
+      if (product) {
+        res.status(200).json(product)
+      } else {
+        res.status(404).json({ error: `Product with id ${id} not found` })
+      }
+    })
+    .catch(error => {
+      res.status(400).json({ error: error })
+    })
+})
+
+router.patch('./products/:id', authMiddleware.requireJWT, (req, res) => {
+  const id = req.params.id
+  Product.findByIdAndRemove(id)
+    .then(product => {
+      if (product) {
+        res.status(200).json(product)
+      } else {
+        res.status(404).json({ error: `Product with id ${id} not found` })
+      }
+    })
+    .catch(error => {
+      res.status(400).json({ error: error })
+    })
+})
+
 module.exports = router

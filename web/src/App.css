@@ -2,3 +2,8 @@
   max-width: 30em;
   margin: auto;
 }
+
+.jumbotron {
+  padding: 20px;
+  margin-bottom: 10px;
+}

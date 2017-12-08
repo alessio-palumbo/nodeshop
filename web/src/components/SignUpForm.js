@@ -2,7 +2,6 @@ import React from 'react'
 
 function SignUpForm({
   onSignUp
-
 }) {
   return (
     <form
@@ -57,7 +56,10 @@ function SignUpForm({
       </label>
       <br />
       <button
-        className='btn btn-primary'>Sign up</button>
+        className='btn btn-primary'
+      >
+        Sign up
+            </button>
     </form>
   )
 }

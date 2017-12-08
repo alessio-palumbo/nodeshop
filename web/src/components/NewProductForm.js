@@ -14,30 +14,28 @@ function NewProductForm({
         const elements = form.elements
         // Get entered values from fields
         const brandName = elements.brandName.value
-        const name = elements.lastName.value
+        const name = elements.name.value
 
         onAddProduct({ brandName, name })
       }}
     >
-      <label className='mb-2'>
-        {'Brand name: '}
-        <input
-          className='form-control'
-          type='text'
-          name='brandName'
-        />
-      </label>
-      <label className='mb-2'>
-        {'Product name: '}
-        <input
-          className='form-control'
-          type='text'
-          name='name'
-        />
-      </label>
-      <br />
+      <input
+        className='form-control product-input'
+        type='text'
+        name='brandName'
+        placeholder='Brand name'
+      />
+      <input
+        className='form-control product-input'
+        type='text'
+        name='name'
+        placeholder='Product name'
+      />
       <button
-        className='btn btn-primary'>Add Product</button>
+        className='btn btn-primary product-button'
+      >
+        Add Product
+      </button>
     </form>
   )
 }
