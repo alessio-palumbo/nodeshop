@@ -15,13 +15,22 @@ class Product extends Component {
               <div className='col-md-3'>
                 {brandName}
               </div>
-              <div className='col-md-5'>
+              <div className='col-md-6'>
                 {name}
               </div>
-              <div className='col-md-4 text-right'>
-                <button onClick={() => this.setState({ editProduct: !this.state.editProduct })} className='btn btn-sm btn-success'>Edit</button>
-                <button onClick={onAddToWishlist} className='btn btn-sm btn-primary'>❤️</button>
-                <button onClick={onDeleteProduct} className='btn btn-sm btn-danger'>✖️</button>
+              <div className='col-md-3 text-right'>
+                <button
+                  onClick={() => this.setState({ editProduct: !this.state.editProduct })}
+                  className='btn btn-sm btn-success'
+                >Edit</button>
+                <button
+                  onClick={onAddToWishlist}
+                  className='btn btn-sm btn-primary'
+                >❤️</button>
+                <button
+                  onClick={onDeleteProduct}
+                  className='btn btn-sm btn-danger'
+                >✖️</button>
               </div>
             </div>
           ) : (
@@ -31,36 +40,36 @@ class Product extends Component {
 
                   const form = event.target
                   const elements = form.elements
-                  const id = elements._id.value
                   const brandName = elements.brandName.value
                   const name = elements.name.value
 
-                  onEditProduct({ id, brandName, name })
+                  onEditProduct({ brandName, name })
+                  this.setState({ editProduct: !this.state.editProduct })
+
                 }}
               >
                 <div className='row'>
                   <div className='col-md-3'>
                     <input
                       type='text'
-                      name={brandName}
-                      value={brandName}
+                      name='brandName'
+                      defaultValue={brandName}
                       className='form-control edit-product-input'
                     />
                   </div>
                   <div className='col-md-6'>
                     <input
                       type='text'
-                      name={name}
-                      value={name}
+                      name='name'
+                      defaultValue={name}
                       className='form-control edit-product-input'
                     />
                   </div>
-                  <div className='col-md-3'>
+                  <div className='col-md-3 text-right'>
                     <button
-                      onClick={() => this.setState({ editProduct: !this.state.editProduct })}
-                      className='btn btn-sm btn-primary'
+                      className='btn btn-sm btn-primary btn-update'
                     >
-                      Edit
+                      Update
                   </button>
                     <button
                       onClick={

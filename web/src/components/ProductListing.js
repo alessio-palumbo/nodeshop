@@ -17,8 +17,10 @@ function ProductListing({
         products.map((product, index) => {
           return (
             <Product
+              key={product._id}
               {...product}
-              onEditProduct={() => onEditProduct(product._id)}
+              onEditProduct={(attributes) => onEditProduct(product._id, attributes)}
+              onDeleteProduct={() => onDeleteProduct(product._id)}
             />
           )
         })

@@ -12,7 +12,6 @@ router.get('/wishlist', requireJWT, (req, res) => {
       if (wishlist) {
         res.json({ products: wishlist.products })
       } else {
-        // No wishlist created for this user yet, so return empty wishlist
         res.json({ products: [] })
       }
     })

@@ -21,6 +21,8 @@ class App extends Component {
     showSignUp: false
   }
 
+  // User 
+
   showSignUp = () => {
     this.setState({ showSignUp: !this.state.showSignUp })
   }
@@ -48,6 +50,8 @@ class App extends Component {
     this.setState({ decodedToken: null })
   }
 
+  // Products
+
   onAddProduct = ({ brandName, name }) => {
     addProduct({ brandName, name })
       .then(data => {
@@ -60,23 +64,41 @@ class App extends Component {
       })
   }
 
-  onEditProduct = ({ id, brandName, name }) => {
-    console.log(id)
-    // this.setState(prevState => {
-    //   const beforeProducts = [...prevState.products]
-    //   beforeProducts.map((product) => {
-    //     if (product._id === id) {
-    //       console.log(product)
-    //       product.editProduct = !product.editProduct
-    //     } else {
-    //       return
-    //     }
-    //   })
-    // })
+  onEditProduct = (id, attributes) => {
+    updateProduct(id, attributes)
+      .then(updatedProduct => {
+        console.log(updatedProduct)
+        this.setState(prevState => {
+          const updatedProducts = prevState.products.map(product => {
+            if (product._id === updatedProduct._id) {
+              return {
+                ...updatedProduct
+              }
+            } else {
+              return product
+            }
+          })
+          return ({
+            products: updatedProducts
+          })
+        })
+      })
   }
 
-  onDeleteProduct = (event) => {
-
+  onDeleteProduct = (id) => {
+    deleteProduct(id)
+      .then(removedProduct => {
+        this.setState(prevState => {
+          const updatedProducts = prevState.products.filter(product => {
+            if (product._id !== removedProduct._id) {
+              return product
+            }
+          })
+          return ({
+            products: updatedProducts
+          })
+        })
+      })
   }
 
   render() {
@@ -104,6 +126,7 @@ class App extends Component {
                 <ProductListing
                   products={products}
                   onEditProduct={this.onEditProduct}
+                  onDeleteProduct={this.onDeleteProduct}
                 />
               }
               <Wishlist
