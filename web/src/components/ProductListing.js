@@ -4,7 +4,8 @@ import Product from './Product'
 function ProductListing({
   products,
   onEditProduct,
-  onDeleteProduct
+  onDeleteProduct,
+  onAddToWishlist
 }) {
   return (
     <div>
@@ -21,6 +22,7 @@ function ProductListing({
               {...product}
               onEditProduct={(attributes) => onEditProduct(product._id, attributes)}
               onDeleteProduct={() => onDeleteProduct(product._id)}
+              onAddToWishlist={() => onAddToWishlist(product._id)}
             />
           )
         })

@@ -26,11 +26,15 @@ class Product extends Component {
                 <button
                   onClick={onAddToWishlist}
                   className='btn btn-sm btn-primary'
-                >❤️</button>
+                >
+                  <span className='emoji' role='img' aria-label='add to wishlist'>❤️</span>
+                </button>
                 <button
                   onClick={onDeleteProduct}
                   className='btn btn-sm btn-danger'
-                >✖️</button>
+                >
+                  <span className='emoji' role='img' aria-label='delete product'>✖️</span>
+                </button>
               </div>
             </div>
           ) : (

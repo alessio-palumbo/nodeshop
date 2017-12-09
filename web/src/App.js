@@ -78,11 +78,18 @@ class App extends Component {
               return product
             }
           })
+
           return ({
-            products: updatedProducts
+            products: updatedProducts,
+            wishlistProducts: prevState.wishlistProducts
           })
         })
+        showWishlist()
+          .then(wishlistProducts => {
+            this.setState({ wishlistProducts })
+          })
       })
+
   }
 
   onDeleteProduct = (id) => {
@@ -100,6 +107,33 @@ class App extends Component {
         })
       })
   }
+
+  // Wishlist
+  onAddToWishlist = (productID) => {
+    addWishlistProduct(productID)
+      .then(newList => {
+        this.setState(prevState => {
+          const updatedWishlist = [...newList]
+          return ({
+            wishlistProducts: updatedWishlist
+          })
+        })
+      })
+  }
+
+  onDeleteWishlistProduct = (productID) => {
+    deleteWishlistProduct(productID)
+      .then(newList => {
+        this.setState(prevState => {
+          const updatedWishlist = [...newList]
+          return ({
+            wishlistProducts: updatedWishlist
+          })
+        })
+
+      })
+  }
+
 
   render() {
     const { decodedToken, products, wishlistProducts } = this.state
@@ -127,10 +161,12 @@ class App extends Component {
                   products={products}
                   onEditProduct={this.onEditProduct}
                   onDeleteProduct={this.onDeleteProduct}
+                  onAddToWishlist={this.onAddToWishlist}
                 />
               }
               <Wishlist
                 wishlistProducts={wishlistProducts}
+                onDeleteWishlistProduct={this.onDeleteWishlistProduct}
               />
               <hr />
               <br />
@@ -177,7 +213,7 @@ class App extends Component {
             )
         }
         <br />
-      </div>
+      </div >
     );
   }
 

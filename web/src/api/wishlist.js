@@ -5,12 +5,12 @@ export function showWishlist() {
     .then(res => res.data.products)
 }
 
-export function addWishlistProduct(id, { brandName, name }) {
-  return api.post(`/wishlist/products/${id}`, { brandName, name })
+export function addWishlistProduct(productID) {
+  return api.post(`/wishlist/products/${productID}`)
     .then(res => res.data.products)
 }
 
-export function deleteWishlistProduct(id) {
-  return api.delete(`/wishlist/products/${id}`)
+export function deleteWishlistProduct(productID) {
+  return api.delete(`/wishlist/products/${productID}`)
     .then(res => res.data.products)
 }
