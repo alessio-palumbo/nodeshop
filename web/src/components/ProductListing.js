@@ -2,6 +2,7 @@ import React from 'react'
 import Product from './Product'
 
 function ProductListing({
+  categories,
   products,
   onEditProduct,
   onDeleteProduct,
@@ -20,6 +21,7 @@ function ProductListing({
             <Product
               key={product._id}
               {...product}
+              categories={categories}
               onEditProduct={(attributes) => onEditProduct(product._id, attributes)}
               onDeleteProduct={() => onDeleteProduct(product._id)}
               onAddToWishlist={() => onAddToWishlist(product._id)}

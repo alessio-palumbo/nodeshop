@@ -6,9 +6,11 @@ import SignUpForm from './components/SignUpForm'
 import ProductListing from './components/ProductListing'
 import NewProductForm from './components/NewProductForm'
 import Wishlist from './components/Wishlist'
+import Category from './components/Category'
 import { signUp, signIn, signOutNow } from './api/auth'
 import { listProducts, addProduct, updateProduct, deleteProduct } from './api/products'
 import { showWishlist, addWishlistProduct, deleteWishlistProduct } from './api/wishlist'
+import { listCategories, addCategory, updateCategory, deleteCategory } from './api/categories'
 import { setToken } from './api/init'
 import { getDecodedToken } from './api/token'
 
@@ -16,6 +18,7 @@ import { getDecodedToken } from './api/token'
 class App extends Component {
   state = {
     decodedToken: getDecodedToken(), // Restore the previous signed in data
+    categories: [],
     products: [],
     wishlistProducts: [],
     showSignUp: false
@@ -52,8 +55,8 @@ class App extends Component {
 
   // Products
 
-  onAddProduct = ({ brandName, name }) => {
-    addProduct({ brandName, name })
+  onAddProduct = ({ brandName, name, category }) => {
+    addProduct({ brandName, name, category })
       .then(data => {
         this.setState(prevState => {
           const newProducts = [...prevState.products, data]
@@ -101,8 +104,14 @@ class App extends Component {
               return product
             }
           })
+          const updatedWishlist = prevState.products.filter(product => {
+            if (product._id !== removedProduct._id) {
+              return product
+            }
+          })
           return ({
-            products: updatedProducts
+            products: updatedProducts,
+            wishlistProducts: updatedWishlist
           })
         })
       })
@@ -134,9 +143,11 @@ class App extends Component {
       })
   }
 
+  // Categories
+
 
   render() {
-    const { decodedToken, products, wishlistProducts } = this.state
+    const { decodedToken, products, wishlistProducts, categories } = this.state
 
     return (
       <div className="App" >
@@ -152,26 +163,53 @@ class App extends Component {
           decodedToken ? (
             <div>
               <p className='text-center'>Signed in as: <strong>{decodedToken.email}</strong></p>
-              {/* <p>Signed in: {new Date(decodedToken.iat * 1000).toISOString()}</p>
-              <p>Expire in: {new Date(decodedToken.exp * 1000).toISOString()}</p> */}
               <br />
+              <h3 className='text-center'>Categories</h3>
+              <hr />
+              {/* Categories */}
+              {
+                categories && categories.map(category => {
+                  return (
+                    <div>
+                      <Category
+                        categoryName={category.categoryName}
+                        categories={categories}
+                        products={category.products}
+                        onEditProduct={this.onEditProduct}
+                        onDeleteProduct={this.onDeleteProduct}
+                        onAddToWishlist={this.onAddToWishlist}
+                      />
+                    </div>
+                  )
+                })
+              }
+              <hr />
+              <br />
+              {/* Products */}
+              <h3 className='text-center'>All Products</h3>
+              <hr />
               {
                 !!products &&
                 <ProductListing
+                  categories={categories}
                   products={products}
                   onEditProduct={this.onEditProduct}
                   onDeleteProduct={this.onDeleteProduct}
                   onAddToWishlist={this.onAddToWishlist}
                 />
               }
+              {/* Wishlist */}
               <Wishlist
                 wishlistProducts={wishlistProducts}
                 onDeleteWishlistProduct={this.onDeleteWishlistProduct}
               />
               <hr />
               <br />
+              {/* Product Form */}
               <p><strong>Add New Product</strong></p>
-              <NewProductForm onAddProduct={this.onAddProduct} />
+              <NewProductForm
+                categories={categories}
+                onAddProduct={this.onAddProduct} />
               <hr />
               <button
                 className='btn btn-alert'
@@ -218,6 +256,13 @@ class App extends Component {
   }
 
   load() {
+    listCategories()
+      .then(categories => {
+        this.setState({ categories })
+      })
+      .catch(error => {
+        console.error('error loading categories', error)
+      })
     listProducts()
       .then(products => {
         this.setState({ products })

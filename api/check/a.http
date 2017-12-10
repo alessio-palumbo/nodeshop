@@ -1,24 +1,34 @@
-### Index
+#### Products #####
+
+### Index Products
 GET http://localhost:7000/products
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
-### Show
+### Show Product
 GET http://localhost:7000/products/5a2743d514cfb11fad6580a1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
-### New
+### New Product
 POST http://localhost:7000/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
-### Update
-PATCH http://localhost:7000/products/5a2743d514cfb11fad6580a1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
 Content-Type: application/json
 
 {
-  "brandName": "Microsoft",
-  "name": "Wireless mouse"
+  "brandName": "Lg",
+  "name": "G6",
+  "category": "5a2caff8e02230162775930f"
 }
-### Delete
-DELETE http://localhost:7000/products/5a2743d514cfb11fad6580a1
+### Update Product
+PATCH http://localhost:7000/products/5a2b4e7be47f566a9917a744
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+Content-Type: application/json
+
+{
+  "category": "5a2cdb82a0e70339ef3849c0"
+}
+### Delete Product
+DELETE http://localhost:7000/products/5a2cb04ee022301627759310
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+
+##### User #####
 
 ### Register User
 POST http://localhost:7000/auth/register
@@ -49,3 +59,37 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtY
 ###m Delete from Wishlist
 DELETE http://localhost:7000/wishlist/products/5a2b4e7be47f566a9917a744
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+
+
+### Category List
+GET http://localhost:7000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+### Add Category
+POST http://localhost:7000/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+Content-type: application/json
+
+{
+  "categoryName": "Computers"
+}
+
+### Show Category
+GET http://localhost:7000/categories/Sport
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+
+### Update Category
+PATCH http://localhost:7000/categories/5a2c8e743cdcde7961ff60c7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+Content-Type: application/json
+
+{
+  "categoryName": "Wireless devices"
+}
+
+### Delete Category
+DELETE http://localhost:7000/categories/5a2c8f1e618e0479eb03334d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
+
+
+
+

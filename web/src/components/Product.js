@@ -5,7 +5,7 @@ class Product extends Component {
     editProduct: false
   }
   render() {
-    const { brandName, name, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
+    const { brandName, name, categories, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
 
     return (
       <div>
@@ -46,14 +46,15 @@ class Product extends Component {
                   const elements = form.elements
                   const brandName = elements.brandName.value
                   const name = elements.name.value
+                  const category = elements.category.value
 
-                  onEditProduct({ brandName, name })
+                  onEditProduct({ brandName, name, category })
                   this.setState({ editProduct: !this.state.editProduct })
 
                 }}
               >
-                <div className='row'>
-                  <div className='col-md-3'>
+                <div className='row edit-row'>
+                  <div className='col-md-3 gutter-sm'>
                     <input
                       type='text'
                       name='brandName'
@@ -61,13 +62,27 @@ class Product extends Component {
                       className='form-control edit-product-input'
                     />
                   </div>
-                  <div className='col-md-6'>
+                  <div className='col-md-3 gutter-sm'>
                     <input
                       type='text'
                       name='name'
                       defaultValue={name}
                       className='form-control edit-product-input'
                     />
+                  </div>
+                  <div className='col-md-3 gutter-sm'>
+                    <select
+                      className='custom-select edit-product-input'
+                      name='category'
+                    >
+                      {
+                        categories.map(category => {
+                          return (
+                            <option value={category._id}>{category.categoryName}</option>
+                          )
+                        })
+                      }
+                    </select>
                   </div>
                   <div className='col-md-3 text-right'>
                     <button

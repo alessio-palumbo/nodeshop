@@ -37,14 +37,19 @@ button {
 
 /* Add Product */
 .product-input {
-  width: 35%;
-  margin-right: 10px;
+  width: 30%;
+  margin-right: 5px;
   display: inline-block;
+}
+
+.product-select {
+  width: 25%;
 }
 
 .product-button {
   vertical-align: top;
 }
+
 
 .btn-sm {
   line-height: 15px;
@@ -56,10 +61,33 @@ button {
 }
 
 /* Edit product */
+.edit-row {
+  padding-left: 10px;
+}
+
 .edit-product-input {
   padding: 0;
+  margin: 0;
+}
+
+.custom-select {
+  height: 32px;
+  vertical-align: top;
+}
+
+.gutter-sm {
+  padding: 3px;
 }
 
 /* emoji */
 span.emoji {
 }
+
+/* Category */
+.category-toggler {
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: none;
+}
+
+
