@@ -12,20 +12,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtY
 Content-Type: application/json
 
 {
-  "brandName": "Lg",
-  "name": "G6",
-  "category": "5a2caff8e02230162775930f"
+  "brandName": "Levis",
+  "name": "Jeans",
+  "category": "5a2cdb79a0e70339ef3849bf"
 }
 ### Update Product
-PATCH http://localhost:7000/products/5a2b4e7be47f566a9917a744
+PATCH http://localhost:7000/products/5a2dbf9c6b001c3e11b336fc
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
 Content-Type: application/json
 
 {
-  "category": "5a2cdb82a0e70339ef3849c0"
+  "category": "5a2caff8e02230162775930f"
 }
 ### Delete Product
-DELETE http://localhost:7000/products/5a2cb04ee022301627759310
+DELETE http://localhost:7000/products/5a2dbf7f6b001c3e11b336fa
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
 
 ##### User #####
@@ -87,7 +87,7 @@ Content-Type: application/json
 }
 
 ### Delete Category
-DELETE http://localhost:7000/categories/5a2c8f1e618e0479eb03334d
+DELETE http://localhost:7000/categories/5a2c8e743cdcde7961ff60c7
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMjU5NjAwNSwiZXhwIjoxNTEzMjAwODA1LCJzdWIiOiI1YTI4NjIyNDJmZWMwODBlZmY2N2MzOTkifQ.8IQdTm21ky0uMJ90vLYSRALOc7CXgo3eFpflHuiaXUY
 
 

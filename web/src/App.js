@@ -70,7 +70,6 @@ class App extends Component {
   onEditProduct = (id, attributes) => {
     updateProduct(id, attributes)
       .then(updatedProduct => {
-        console.log(updatedProduct)
         this.setState(prevState => {
           const updatedProducts = prevState.products.map(product => {
             if (product._id === updatedProduct._id) {

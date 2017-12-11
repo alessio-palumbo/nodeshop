@@ -32,6 +32,7 @@ class Category extends Component {
                   onDeleteProduct={(id) => onDeleteProduct(id)}
                   onAddToWishlist={(id) => onAddToWishlist(id)}
                 />
+                <hr />
               </div>
             )
         }
