@@ -34,24 +34,17 @@ router.post('/products', authMiddleware.requireJWT, (req, res) => {
   const attributes = req.body
   Product.create(attributes)
     .then(product => {
-      Product.findOne(product)
-        .populate('category')
+      Category.findOneAndUpdate(
+        { _id: product.category },
+        { $addToSet: { products: product._id } },
+        { upsert: true, new: true, runValidators: true }
+      )
         .then(product => {
           res.status(201).json(product)
         })
         .catch(error => {
           res.status(400).json({ error: error })
         })
-      // Add product to the selected category
-      // Category.findOneAndUpdate(
-      //   { _id: product.category },
-      //   { $addToSet: { products: product._id } },
-      //   { upsert: true, new: true, runValidators: true }
-      // )
-      //   .then(category => {
-      //     console.log(`Product added to category: '${category.categoryName}'`)
-      //   })
-
     })
     .catch(error => {
       res.status(400).json({ error: error })

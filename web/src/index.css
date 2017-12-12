@@ -90,4 +90,8 @@ span.emoji {
   background: none;
 }
 
+.category-toggler:focus {
+  outline: none;
+}
+
 

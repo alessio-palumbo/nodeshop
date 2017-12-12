@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css'
 import './App.css';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import Error from './components/Error'
 import SignInForm from './components/SignInForm'
 import SignUpForm from './components/SignUpForm'
 import ProductListing from './components/ProductListing'
 import NewProductForm from './components/NewProductForm'
 import Wishlist from './components/Wishlist'
 import Category from './components/Category'
+import PrimaryNav from './components/PrimaryNav'
 import { signUp, signIn, signOutNow } from './api/auth'
 import { listProducts, addProduct, updateProduct, deleteProduct } from './api/products'
 import { showWishlist, addWishlistProduct, deleteWishlistProduct } from './api/wishlist'
@@ -17,6 +20,7 @@ import { getDecodedToken } from './api/token'
 
 class App extends Component {
   state = {
+    error: null,
     decodedToken: getDecodedToken(), // Restore the previous signed in data
     categories: [],
     products: [],
@@ -31,20 +35,22 @@ class App extends Component {
   }
 
   onSignUp = ({ firstName, lastName, email, password }) => {
-    console.log('User signed up', { firstName, lastName, email, password })
     signUp({ firstName, lastName, email, password })
       .then(decodedToken => {
-        console.log('signed in', decodedToken)
         this.setState({ decodedToken })
+      })
+      .catch((error) => {
+        this.setState({ error })
       })
   }
 
   onSignIn = ({ email, password }) => {
-    console.log('App received', { email, password })
     signIn({ email, password })
       .then(decodedToken => {
-        console.log('signed in', decodedToken)
         this.setState({ decodedToken })
+      })
+      .catch((error) => {
+        this.setState({ error })
       })
   }
 
@@ -64,6 +70,9 @@ class App extends Component {
             products: newProducts
           })
         })
+      })
+      .catch((error) => {
+        this.setState({ error })
       })
   }
 
@@ -103,16 +112,11 @@ class App extends Component {
               return product
             }
           })
-          const updatedWishlist = prevState.products.filter(product => {
-            if (product._id !== removedProduct._id) {
-              return product
-            }
-          })
           return ({
             products: updatedProducts,
-            wishlistProducts: updatedWishlist
           })
         })
+        this.onDeleteWishlistProduct(removedProduct._id)
       })
   }
 
@@ -146,136 +150,179 @@ class App extends Component {
 
 
   render() {
-    const { decodedToken, products, wishlistProducts, categories } = this.state
+    const { decodedToken, products, wishlistProducts, categories, error } = this.state
+    const signedIn = decodedToken
+
+    const requireAuth = (render) => (props) => (
+      !signedIn ? (
+        <Redirect to='/signin' />
+      ) : (
+          render(props)
+        )
+    )
 
     return (
-      <div className="App" >
-        <div className='jumbotron text-center'>
-          <h1>Yarra</h1>
-        </div>
-        <div className='text-center'>
-          <h4>Now Delivering: </h4>
-          <h5>Shipping trillions of new products</h5>
-        </div>
-        <hr />
-        {
-          decodedToken ? (
-            <div>
-              <p className='text-center'>Signed in as: <strong>{decodedToken.email}</strong></p>
-              <br />
-              <h3 className='text-center'>Categories</h3>
-              <hr />
-              {/* Categories */}
-              {
-                categories && categories.map(category => {
-                  return (
-                    <div>
-                      <Category
-                        categoryName={category.categoryName}
+      <Router>
+        <div className="App" >
+          <PrimaryNav
+            signedIn={signedIn}
+            onSignOut={this.onSignOut}
+          />
+          <br />
+          {
+            error && <Error error={error} />
+          }
+
+          <Route path='/' exact render={() => (
+            <Fragment>
+              <div className='jumbotron text-center'>
+                <h1>React Shop</h1>
+              </div>
+              <div className='text-center'>
+                <h4>Now Delivering: </h4>
+                <h5>Shipping trillions of new products</h5>
+              </div>
+            </Fragment>
+          )} />
+          {/* If Signed In */}
+          {
+            decodedToken ? (
+              <div>
+                <Route path='/' exact render={requireAuth(() => (
+                  <Fragment>
+                    <hr />
+                    <p className='text-center'>Signed in as: <strong>{decodedToken.email}</strong></p>
+                    <hr />
+                  </Fragment>
+                ))} />
+                {/* Categories */}
+                <Route path='/categories' exact render={() => (
+                  <Fragment>
+                    <h3 className='text-center'>Categories</h3>
+                    {
+                      categories && categories.map(category => {
+                        return (
+                          <Category
+                            categoryName={category.categoryName}
+                            categories={categories}
+                            products={category.products}
+                            onEditProduct={this.onEditProduct}
+                            onDeleteProduct={this.onDeleteProduct}
+                            onAddToWishlist={this.onAddToWishlist}
+                          />
+                        )
+                      })
+                    }
+                  </Fragment>
+                )} />
+                {/* Products */}
+                <Route path='/products' exact render={requireAuth(() => (
+                  <Fragment>
+                    <br />
+                    {/* Product Form */}
+                    <p className='text-center'><strong>Add New Product</strong></p>
+                    <NewProductForm
+                      categories={categories}
+                      onAddProduct={this.onAddProduct} />
+                    <br />
+                    <h4 className='text-center'>Products</h4>
+                    <hr />
+                    {
+                      !!products &&
+                      <ProductListing
                         categories={categories}
-                        products={category.products}
+                        products={products}
                         onEditProduct={this.onEditProduct}
                         onDeleteProduct={this.onDeleteProduct}
                         onAddToWishlist={this.onAddToWishlist}
                       />
-                    </div>
-                  )
-                })
-              }
-              <hr />
-              <br />
-              {/* Products */}
-              <h3 className='text-center'>All Products</h3>
-              <hr />
-              {
-                !!products &&
-                <ProductListing
-                  categories={categories}
-                  products={products}
-                  onEditProduct={this.onEditProduct}
-                  onDeleteProduct={this.onDeleteProduct}
-                  onAddToWishlist={this.onAddToWishlist}
-                />
-              }
-              {/* Wishlist */}
-              <Wishlist
-                wishlistProducts={wishlistProducts}
-                onDeleteWishlistProduct={this.onDeleteWishlistProduct}
-              />
-              <hr />
-              <br />
-              {/* Product Form */}
-              <p><strong>Add New Product</strong></p>
-              <NewProductForm
-                categories={categories}
-                onAddProduct={this.onAddProduct} />
-              <hr />
-              <button
-                className='btn btn-alert'
-                onClick={this.onSignOut}
-              >
-                Sign Out
-            </button>
-              <br />
-            </div>
-
-          ) : (
-              <div>
-                {
-                  this.state.showSignUp === false ? (
-                    <div>
-                      <SignInForm
-                        onSignIn={this.onSignIn}
+                    }
+                  </Fragment>
+                ))} />
+                {/* Wishlist */}
+                <Route path='/wishlist' exact render={requireAuth(() => (
+                  <Fragment>
+                    {wishlistProducts &&
+                      <Wishlist
+                        wishlistProducts={wishlistProducts}
+                        onDeleteWishlistProduct={this.onDeleteWishlistProduct}
                       />
-                      <br />
-                      <p>Don't have an account?</p>
-                      <button onClick={this.showSignUp} className='btn btn-primary'>Sign Up</button>
-                    </div>
-                  ) : (
-                      <div>
-                        <SignUpForm
-                          onSignUp={this.onSignUp}
-                        />
-                        <br />
-                        <button
-                          className='btn btn-success'
-                          onClick={this.showSignUp}
-                        >
-                          Back to Sign in
-                      </button>
-                      </div>
-                    )
-                }
+                    }
+                    <hr />
+                  </Fragment>
+                ))} />
+                <br />
               </div>
-            )
-        }
-        <br />
-      </div >
+            ) : (
+                <div>
+                  {
+                    this.state.showSignUp === false ? (
+                      <Route path='/signin' exact render={() => (
+                        <Fragment>
+                          <div>
+                            <SignInForm
+                              onSignIn={this.onSignIn}
+                            />
+                            <br />
+                            <p>Don't have an account?</p>
+                            <button onClick={this.showSignUp} className='btn btn-primary'>Sign Up</button>
+                          </div>
+                        </Fragment>
+                      )} />
+                    ) : (
+                        <div>
+                          <SignUpForm
+                            onSignUp={this.onSignUp}
+                          />
+                          <br />
+                          <button
+                            className='btn btn-success'
+                            onClick={this.showSignUp}
+                          >
+                            Back to Sign in
+                            </button>
+                        </div>
+                      )
+                  }
+                </div>
+              )
+          }
+          <br />
+        </div>
+      </Router>
     );
   }
 
   load() {
-    listCategories()
-      .then(categories => {
-        this.setState({ categories })
+    const saveError = (error) => {
+      this.setState({ error })
+    }
+    const { decodedToken } = this.state
+
+    if (decodedToken) {
+      listCategories()
+        .then(categories => {
+          this.setState({ categories })
+        })
+        .catch(saveError)
+
+      listProducts()
+        .then(products => {
+          this.setState({ products })
+        })
+        .catch(saveError)
+
+      showWishlist()
+        .then(wishlistProducts => {
+          this.setState({ wishlistProducts })
+        })
+        .catch(saveError)
+    } else {
+      this.setState({
+        products: null,
+        wishlistProducts: null,
       })
-      .catch(error => {
-        console.error('error loading categories', error)
-      })
-    listProducts()
-      .then(products => {
-        this.setState({ products })
-      })
-      .catch(error => {
-        console.error('error loading products', error)
-      })
-    showWishlist()
-      .then(wishlistProducts => {
-        this.setState({ wishlistProducts })
-      })
-      .catch(error => {
-        console.error('error loading wishlist products', error)
-      })
+    }
   }
 
   // When this App first appear on screen

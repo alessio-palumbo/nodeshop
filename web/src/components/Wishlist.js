@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 function Wishlist({
   wishlistProducts,
   onDeleteWishlistProduct
 }) {
   return (
-    <div>
-      <hr />
+    <Fragment>
       <h4 className='text-center'>Wishlist</h4>
       <hr />
       {
@@ -35,7 +34,7 @@ function Wishlist({
             })
           )
       }
-    </div>
+    </Fragment>
   )
 }
 

@@ -1,5 +1,28 @@
-import React, { Component } from 'react'
-import ProductListing from './ProductListing'
+import React from 'react'
+
+class CategoryNav extends Component {
+  state = {
+    active: false
+  }
+
+  render() {
+    const { categoryName, categories, products, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
+
+    return (
+      <div>
+        <button
+          onClick={() => this.setState({ active: !this.state.active })}
+          className='category-toggler text-primary'
+        >
+          {categoryName}
+        </button>
+      </div>
+    )
+  }
+}
+
+// export default CategoryNav
+
 
 class Category extends Component {
   state = {
@@ -7,7 +30,6 @@ class Category extends Component {
   }
 
   render() {
-    const { categoryName, categories, products, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
 
     return (
       <div>
@@ -44,5 +66,3 @@ class Category extends Component {
     )
   }
 }
-
-export default Category
