@@ -8,6 +8,12 @@ export function signUp({ firstName, lastName, email, password }) {
       setToken(token)
       return getDecodedToken()
     })
+    .catch((error) => {
+      if (/ 401/.test(error.message)) {
+        error = new Error('The email/password combination were incorrect')
+      }
+      throw error
+    })
 }
 
 export function signIn({ email, password }) {
@@ -16,6 +22,12 @@ export function signIn({ email, password }) {
       const token = res.data.token
       setToken(token)
       return getDecodedToken()
+    })
+    .catch((error) => {
+      if (/ 401/.test(error.message)) {
+        error = new Error('The email/password combination were incorrect')
+      }
+      throw error
     })
 }
 

@@ -10,12 +10,16 @@ class CategoryNav extends Component {
 
     return (
       <div>
-        <button
-          onClick={() => this.setState({ active: !this.state.active })}
-          className='category-toggler text-primary'
-        >
-          {categoryName}
-        </button>
+        {
+          categories.map(category => {
+            <button
+              onClick={() => this.setState({ active: !this.state.active })}
+              className='category-toggler text-primary'
+            >
+              {category.categoryName}
+            </button>
+          })
+        }
       </div>
     )
   }
@@ -66,3 +70,13 @@ class Category extends Component {
     )
   }
 }
+
+
+
+
+
+
+<Route path='/signin' exact render={({ match }) => {
+  signedIn ? (
+    <Redirect to='/products' />
+  ) :

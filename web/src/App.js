@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom'
 import './bootstrap-4.0.0-beta.2-dist/css/bootstrap.min.css'
 import './App.css';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
@@ -24,8 +25,7 @@ class App extends Component {
     decodedToken: getDecodedToken(), // Restore the previous signed in data
     categories: [],
     products: [],
-    wishlistProducts: [],
-    showSignUp: false
+    wishlistProducts: []
   }
 
   // User 
@@ -151,7 +151,7 @@ class App extends Component {
 
   render() {
     const { decodedToken, products, wishlistProducts, categories, error } = this.state
-    const signedIn = decodedToken
+    const signedIn = !!decodedToken
 
     const requireAuth = (render) => (props) => (
       !signedIn ? (
@@ -164,6 +164,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App" >
+          {/* Nav */}
           <PrimaryNav
             signedIn={signedIn}
             onSignOut={this.onSignOut}
@@ -172,7 +173,7 @@ class App extends Component {
           {
             error && <Error error={error} />
           }
-
+          {/* Home */}
           <Route path='/' exact render={() => (
             <Fragment>
               <div className='jumbotron text-center'>
@@ -184,110 +185,108 @@ class App extends Component {
               </div>
             </Fragment>
           )} />
-          {/* If Signed In */}
-          {
-            decodedToken ? (
-              <div>
-                <Route path='/' exact render={requireAuth(() => (
-                  <Fragment>
-                    <hr />
-                    <p className='text-center'>Signed in as: <strong>{decodedToken.email}</strong></p>
-                    <hr />
-                  </Fragment>
-                ))} />
-                {/* Categories */}
-                <Route path='/categories' exact render={() => (
-                  <Fragment>
-                    <h3 className='text-center'>Categories</h3>
-                    {
-                      categories && categories.map(category => {
-                        return (
-                          <Category
-                            categoryName={category.categoryName}
-                            categories={categories}
-                            products={category.products}
-                            onEditProduct={this.onEditProduct}
-                            onDeleteProduct={this.onDeleteProduct}
-                            onAddToWishlist={this.onAddToWishlist}
-                          />
-                        )
-                      })
-                    }
-                  </Fragment>
-                )} />
-                {/* Products */}
-                <Route path='/products' exact render={requireAuth(() => (
-                  <Fragment>
-                    <br />
-                    {/* Product Form */}
-                    <p className='text-center'><strong>Add New Product</strong></p>
-                    <NewProductForm
+
+          {/* Account */}
+          <Route path='/' exact render={requireAuth(() => (
+            <Fragment>
+              <hr />
+              <p className='text-center'>Signed in as: <strong>{decodedToken.email}</strong></p>
+              <hr />
+            </Fragment>
+          ))} />
+
+          {/* Categories */}
+          <Route path='/categories' exact render={requireAuth(() => (
+            <Fragment>
+              <h3 className='text-center'>Categories</h3>
+              {
+                categories && categories.map(category => {
+                  return (
+                    <Category
+                      categoryName={category.categoryName}
                       categories={categories}
-                      onAddProduct={this.onAddProduct} />
-                    <br />
-                    <h4 className='text-center'>Products</h4>
-                    <hr />
-                    {
-                      !!products &&
-                      <ProductListing
-                        categories={categories}
-                        products={products}
-                        onEditProduct={this.onEditProduct}
-                        onDeleteProduct={this.onDeleteProduct}
-                        onAddToWishlist={this.onAddToWishlist}
-                      />
-                    }
-                  </Fragment>
-                ))} />
-                {/* Wishlist */}
-                <Route path='/wishlist' exact render={requireAuth(() => (
-                  <Fragment>
-                    {wishlistProducts &&
-                      <Wishlist
-                        wishlistProducts={wishlistProducts}
-                        onDeleteWishlistProduct={this.onDeleteWishlistProduct}
-                      />
-                    }
-                    <hr />
-                  </Fragment>
-                ))} />
-                <br />
-              </div>
+                      products={category.products}
+                      onEditProduct={this.onEditProduct}
+                      onDeleteProduct={this.onDeleteProduct}
+                      onAddToWishlist={this.onAddToWishlist}
+                    />
+                  )
+                })
+              }
+            </Fragment>
+          ))} />
+
+          {/* Products */}
+          <Route path='/products' exact render={requireAuth(() => (
+            <Fragment>
+              <br />
+              {/* Product Form */}
+              <p className='text-center'><strong>Add New Product</strong></p>
+              <NewProductForm
+                categories={categories}
+                onAddProduct={this.onAddProduct} />
+              <br />
+              <h4 className='text-center'>Products</h4>
+              <hr />
+              {
+                !!products &&
+                <ProductListing
+                  categories={categories}
+                  products={products}
+                  onEditProduct={this.onEditProduct}
+                  onDeleteProduct={this.onDeleteProduct}
+                  onAddToWishlist={this.onAddToWishlist}
+                />
+              }
+            </Fragment>
+          ))} />
+
+          {/* Wishlist */}
+          <Route path='/wishlist' exact render={requireAuth(() => (
+            <Fragment>
+              {wishlistProducts &&
+                <Wishlist
+                  wishlistProducts={wishlistProducts}
+                  onDeleteWishlistProduct={this.onDeleteWishlistProduct}
+                />
+              }
+            </Fragment>
+          ))} />
+
+          {/* Signin */}
+          <Route path='/signin' exact render={() => (
+            signedIn ? (
+              <Redirect to='/products' />
             ) : (
-                <div>
-                  {
-                    this.state.showSignUp === false ? (
-                      <Route path='/signin' exact render={() => (
-                        <Fragment>
-                          <div>
-                            <SignInForm
-                              onSignIn={this.onSignIn}
-                            />
-                            <br />
-                            <p>Don't have an account?</p>
-                            <button onClick={this.showSignUp} className='btn btn-primary'>Sign Up</button>
-                          </div>
-                        </Fragment>
-                      )} />
-                    ) : (
-                        <div>
-                          <SignUpForm
-                            onSignUp={this.onSignUp}
-                          />
-                          <br />
-                          <button
-                            className='btn btn-success'
-                            onClick={this.showSignUp}
-                          >
-                            Back to Sign in
-                            </button>
-                        </div>
-                      )
-                  }
-                </div>
+                <Fragment>
+                  <SignInForm
+                    onSignIn={this.onSignIn}
+                  />
+                  <br />
+                  <p>Don't have an account?</p>
+                  <Link to='/signup'
+                    className='btn btn-primary'
+                  >
+                    Sign Up
+                          </Link>
+                </Fragment>
               )
-          }
-          <br />
+          )} />
+
+          {/* Sign up */}
+          <Route path='/signup' exact render={() => (
+            <Fragment>
+              <SignUpForm
+                onSignUp={this.onSignUp}
+              />
+              <br />
+              <Link to='/signin'
+                className='btn btn-primary'
+              >
+                Back to Sign in
+                      </Link>
+            </Fragment>
+          )} />
         </div>
       </Router>
     );
@@ -320,7 +319,7 @@ class App extends Component {
     } else {
       this.setState({
         products: null,
-        wishlistProducts: null,
+        wishlistProducts: null
       })
     }
   }
@@ -335,6 +334,9 @@ class App extends Component {
     // then token will have changed
     if (this.state.decodedToken !== prevState.decodedToken) {
       this.load()
+      this.setState({
+        error: null
+      })
     }
   }
 }
