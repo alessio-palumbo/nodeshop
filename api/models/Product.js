@@ -8,26 +8,34 @@ const productSchema = new Schema({
   name: String
 })
 
-productSchema.pre('remove', next => {
-  Category.findById(this.category)
-    .then(category => {
-      category.remove({ products: this._id })
-    })
+productSchema.post('remove', next => {
+  Category.findByIdAndUpdate(
+    { _id: this.category },
+    { $pull: { products: this._id } },
+    { upsert: true, new: true, runValidators: true }
+  )
+  // Category.findById(this.category)
+  //   .then(category => {
+  //     category.remove({ products: this._id })
+  //   })
 })
 
 productSchema.pre('update', next => {
-  Category.findById(this.category)
-    .then(category => {
-      category.remove({ products: this._id })
-    })
+  Category.findByIdAndUpdate(
+    { _id: this.category },
+    { $pull: { products: this._id } },
+    { upsert: true, new: true, runValidators: true }
+  )
 })
 
 productSchema.post('update', next => {
-  Category.findById(this.category)
-    .then(category => {
-      category.update({ products: this._id })
-    })
+  Category.findByIdAndUpdate(
+    { _id: this.category },
+    { $addToSet: { products: this._id } },
+    { upsert: true, new: true, runValidators: true }
+  )
 })
+
 
 const Product = mongoose.model('Product', productSchema)
 

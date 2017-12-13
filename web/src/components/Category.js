@@ -7,7 +7,7 @@ class Category extends Component {
   }
 
   render() {
-    const { categoryName, categories, products, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
+    const { categoryName, categories, products, onEditProduct, onDeleteProduct, onAddToWishlist, signedIn } = this.props
 
     return (
       <div>
@@ -26,6 +26,7 @@ class Category extends Component {
                 {
                   products.length > 0 ? (
                     <ProductListing
+                      signedIn={signedIn}
                       categories={categories}
                       products={products}
                       onEditProduct={(id, attributes) => onEditProduct(id, attributes)}

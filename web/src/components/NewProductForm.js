@@ -11,7 +11,6 @@ function NewProductForm({
 
         const form = event.target
         const elements = form.elements
-        console.log(elements)
         const brandName = elements.brandName.value
         const name = elements.name.value
         const category = elements.category.value

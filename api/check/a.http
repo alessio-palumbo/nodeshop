@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtY
 Content-Type: application/json
 
 {
-  "brandName": "Levis",
+  "brandName": "Glennistonttt",
   "name": "Jeans",
   "category": "5a2cdb79a0e70339ef3849bf"
 }

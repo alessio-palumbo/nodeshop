@@ -6,7 +6,7 @@ const authMiddleware = require('../middleware/auth')
 const router = express.Router()
 
 // index
-router.get('/products', authMiddleware.requireJWT, (req, res) => {
+router.get('/products', (req, res) => {
   Product.find()
     .then(products => {
       res.json({ products })
@@ -17,7 +17,6 @@ router.get('/products', authMiddleware.requireJWT, (req, res) => {
 })
 
 // show
-
 router.get('/products/:id', authMiddleware.requireJWT, (req, res) => {
   const id = req.params.id
   Product.findById(id)
@@ -39,8 +38,9 @@ router.post('/products', authMiddleware.requireJWT, (req, res) => {
         { $addToSet: { products: product._id } },
         { upsert: true, new: true, runValidators: true }
       )
-        .then(product => {
-          res.status(201).json(product)
+        .populate('products')
+        .then(category => {
+          res.status(201).json(category)
         })
         .catch(error => {
           res.status(400).json({ error: error })

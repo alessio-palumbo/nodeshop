@@ -5,6 +5,8 @@ function improveMessage(message) {
     return 'Please check the entered values'
   } else if (/ 401/.test(message)) {
     return 'You must be signed in'
+  } else if (/Network Error/i.test(message)) {
+    return 'Cannot connect ro API server'
   }
   return message
 }

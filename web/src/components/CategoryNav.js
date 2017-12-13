@@ -70,13 +70,3 @@ class Category extends Component {
     )
   }
 }
-
-
-
-
-
-
-<Route path='/signin' exact render={({ match }) => {
-  signedIn ? (
-    <Redirect to='/products' />
-  ) :

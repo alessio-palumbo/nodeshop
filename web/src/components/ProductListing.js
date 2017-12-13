@@ -6,7 +6,8 @@ function ProductListing({
   products,
   onEditProduct,
   onDeleteProduct,
-  onAddToWishlist
+  onAddToWishlist,
+  signedIn
 }) {
   return (
     <div>
@@ -19,8 +20,9 @@ function ProductListing({
         products.map((product, index) => {
           return (
             <Product
-              key={product._id}
               {...product}
+              key={product._id}
+              signedIn={signedIn}
               categories={categories}
               onEditProduct={(attributes) => onEditProduct(product._id, attributes)}
               onDeleteProduct={() => onDeleteProduct(product._id)}

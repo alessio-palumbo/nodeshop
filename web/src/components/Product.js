@@ -5,7 +5,7 @@ class Product extends Component {
     editProduct: false
   }
   render() {
-    const { brandName, name, categories, onEditProduct, onDeleteProduct, onAddToWishlist } = this.props
+    const { brandName, name, categories, onEditProduct, onDeleteProduct, onAddToWishlist, signedIn } = this.props
 
     return (
       <div>
@@ -18,24 +18,26 @@ class Product extends Component {
               <div className='col-md-6'>
                 {name}
               </div>
-              <div className='col-md-3 text-right'>
-                <button
-                  onClick={() => this.setState({ editProduct: !this.state.editProduct })}
-                  className='btn btn-sm btn-success'
-                >Edit</button>
-                <button
-                  onClick={onAddToWishlist}
-                  className='btn btn-sm btn-primary'
-                >
-                  <span className='emoji' role='img' aria-label='add to wishlist'>❤️</span>
-                </button>
-                <button
-                  onClick={onDeleteProduct}
-                  className='btn btn-sm btn-danger'
-                >
-                  <span className='emoji' role='img' aria-label='delete product'>✖️</span>
-                </button>
-              </div>
+              {signedIn &&
+                <div className='col-md-3 text-right'>
+                  <button
+                    onClick={() => this.setState({ editProduct: !this.state.editProduct })}
+                    className='btn btn-sm btn-success'
+                  >Edit</button>
+                  <button
+                    onClick={onAddToWishlist}
+                    className='btn btn-sm btn-primary'
+                  >
+                    <span className='emoji' role='img' aria-label='add to wishlist'>❤️</span>
+                  </button>
+                  <button
+                    onClick={onDeleteProduct}
+                    className='btn btn-sm btn-danger'
+                  >
+                    <span className='emoji' role='img' aria-label='delete product'>✖️</span>
+                  </button>
+                </div>
+              }
             </div>
           ) : (
               <form
