@@ -100,7 +100,7 @@ class App extends Component {
 
           return ({
             products: updatedProducts,
-            wishlistProducts: prevState.wishlistProducts
+            // wishlistProducts: prevState.wishlistProducts
           })
         })
         showWishlist()
@@ -115,11 +115,13 @@ class App extends Component {
     deleteProduct(id)
       .then(removedProduct => {
         this.setState(prevState => {
-          const updatedProducts = prevState.products.map(product => {
+          const updatedProducts = []
+          prevState.products.map(product => {
             if (product._id !== removedProduct._id) {
-              return product
+              updatedProducts.push(product)
             }
           })
+          console.log(updatedProducts)
           // const updatedCategories = prevState.categories.map(category => {
           //   if (category._id === removedProduct.category) {
           //     let index = category.products.filter(product => {
@@ -131,7 +133,7 @@ class App extends Component {
           // })
 
           return ({
-            products: updatedProducts,
+            products: updatedProducts
             // categories: updatedCategories
 
           })

@@ -21,7 +21,7 @@ function ProductListing({
           return (
             <Product
               {...product}
-              key={product._id}
+              key={index}
               signedIn={signedIn}
               categories={categories}
               onEditProduct={(attributes) => onEditProduct(product._id, attributes)}

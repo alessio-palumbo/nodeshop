@@ -60,23 +60,23 @@ router.patch('/products/:id', authMiddleware.requireJWT, (req, res) => {
       // // If the category has been changed
       // // TODO add if statement to run category changed only if category has been changed
       // // Remove Product from previous category
-      // Category.findOneAndUpdate(
-      //   { products: product._id },
-      //   { $pull: { products: product._id } },
-      //   { upsert: true, new: true, runValidators: true }
-      // )
-      //   .then(category => {
-      //     console.log(`Item successfully removed from ${category.categoryName}`)
-      //   })
-      // // Update Category if category changed
-      // Category.findOneAndUpdate(
-      //   { _id: product.category },
-      //   { $addToSet: { products: product._id } },
-      //   { upsert: true, new: true, runValidators: true }
-      // )
-      //   .then(category => {
-      //     console.log(`Category changed to ${category.categoryName}`)
-      //   })
+      Category.findOneAndUpdate(
+        { products: product._id },
+        { $pull: { products: product._id } },
+        { upsert: true, new: true, runValidators: true }
+      )
+        .then(category => {
+          console.log(`Item successfully removed from ${category.categoryName}`)
+        })
+      // Update Category if category changed
+      Category.findOneAndUpdate(
+        { _id: product.category },
+        { $addToSet: { products: product._id } },
+        { upsert: true, new: true, runValidators: true }
+      )
+        .then(category => {
+          console.log(`Category changed to ${category.categoryName}`)
+        })
       if (product) {
         res.status(200).json(product)
       } else {

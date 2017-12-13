@@ -14,28 +14,14 @@ productSchema.post('remove', next => {
     { $pull: { products: this._id } },
     { upsert: true, new: true, runValidators: true }
   )
+    .then(category => {
+      console.log('Product removed from category')
+    })
   // Category.findById(this.category)
   //   .then(category => {
   //     category.remove({ products: this._id })
   //   })
 })
-
-productSchema.pre('update', next => {
-  Category.findByIdAndUpdate(
-    { _id: this.category },
-    { $pull: { products: this._id } },
-    { upsert: true, new: true, runValidators: true }
-  )
-})
-
-productSchema.post('update', next => {
-  Category.findByIdAndUpdate(
-    { _id: this.category },
-    { $addToSet: { products: this._id } },
-    { upsert: true, new: true, runValidators: true }
-  )
-})
-
 
 const Product = mongoose.model('Product', productSchema)
 

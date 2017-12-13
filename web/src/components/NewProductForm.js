@@ -34,6 +34,7 @@ function NewProductForm({
         className='form-control product-input product-select'
         name='category'
       >
+        <option disabled selected>Category</option>
         {
           categories.map(category => {
             return (

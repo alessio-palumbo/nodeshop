@@ -11,7 +11,7 @@ class Product extends Component {
       <div>
         {
           this.state.editProduct === false ? (
-            <div className='row'>
+            <div className='row product-row'>
               <div className='col-md-3'>
                 {brandName}
               </div>
@@ -41,6 +41,7 @@ class Product extends Component {
             </div>
           ) : (
               <form
+                className='form-edit'
                 onSubmit={event => {
                   event.preventDefault()
 
@@ -77,6 +78,7 @@ class Product extends Component {
                       className='custom-select edit-product-input'
                       name='category'
                     >
+                      <option disabled selected>Category</option>
                       {
                         categories.map(category => {
                           return (
