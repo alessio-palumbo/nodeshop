@@ -1,5 +1,27 @@
+### variables
+@base_url = https://yarra-api-jbdangrxae.now.sh
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ld2VtYWlsQGdtYWlsLmNvbSIsImlhdCI6MTUxMzIxMTM5OCwiZXhwIjoxNTEzODE2MTk4LCJzdWIiOiI1YTMxYzYwNTUzZjFhZjAwOTlhZjI5NzQifQ.dDOSocq6SQHQLvP5B7WEQvGaCVqFBGMxy3rUgzwHyrk
 
-@host = yarra-api-jbdangrxae.now.sh
+### List products
+GET {{base_url}}/products
 
-###
-GET https://{base_url}/products
+### Create products
+POST {{base_url}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "brandName": "Lg",
+  "name": "G6"
+}
+
+### Sign up
+POST {{base_url}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "newemail@gmail.com",
+  "firstName": "Alessio",
+  "lastName": "Palumbo",
+  "password": "123456"
+}
