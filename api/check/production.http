@@ -12,7 +12,8 @@ Content-Type: application/json
 
 {
   "brandName": "Lg",
-  "name": "G6"
+  "name": "G6",
+
 }
 
 ### Sign up
@@ -24,4 +25,13 @@ Content-Type: application/json
   "firstName": "Alessio",
   "lastName": "Palumbo",
   "password": "123456"
+}
+
+### Add Category
+POST {{base_url}}/categories
+Authorization: Bearer {{token}}
+Content-type: application/json
+
+{
+  "categoryName": "Sport"
 }
