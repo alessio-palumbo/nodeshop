@@ -1,0 +1,5 @@
+
+@host = yarra-api-jbdangrxae.now.sh
+
+###
+GET https://{base_url}/products
